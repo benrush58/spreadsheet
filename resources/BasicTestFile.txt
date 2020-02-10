@@ -1,0 +1,18 @@
+A1 4
+A2 5
+A3 -2
+B1 "hello"
+B3 true
+B4 false
+C1 1
+C2 3
+C3 -2
+C4 4
+D1 1
+D2 -1
+D3 2
+D4 "This_is_really_long"
+E2 =(SUM E1)
+E3 =(SUM A1:B4 C2 8)
+F9 "o.O"
+AAA15 3

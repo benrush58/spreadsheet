@@ -1,0 +1,39 @@
+CODE REVIEW
+____________________________________________________________________________________________
+
+DESIGN CRITIQUE
+    The Worksheet interface was well-written and fairly flexible. We did, however, run into issues
+with the Cell interface. The initial Worksheet class returned a CellValue with their evaluateCell
+method. The CellValue interface has a method accept(CellValueVisitor), so we had issues
+compiling their code, as the CellValueVisitor required 7 concrete class. To fix this, they
+replaced the CellValue return types with String return types in their Worksheet and Cell classes,
+which allowed us to compile their code without all of their concrete implementation details.
+Additionally, their ViewModel does not implement their Worksheet interface, it just copies
+over their getter methods. This should not be a problem, but makes it difficult to pass the same
+model into both our controller and view, which could be the reason the View is not updating upon
+the model's edits.
+
+IMPLEMENTATION CRITIQUE
+    The providers keep track of the highlighted cell in their controller implementation, but that
+means we have no access to which cell is currently highlighted when trying to implement
+updateHLCell in our NewController. In order to fix this issue, we had to keep track of the
+highlighted cell in our NewController file and update the field whenever methods are called
+involving the highlighted/selected cell.
+
+DOCUMENTATION CRITIQUE
+    There were several methods in interfaces with confusing/insufficient comments, mostly in the
+View interface. Most of the method names and comments were fairly intuitive though. Additionally,
+the provider's EditView has many public methods that are not in the interface, which means we
+cannot access them from the controller. It was also a little confusing reading all of the
+documentation about topLeft Coord, as that seemed to leak some of the concrete implementation
+details, and the documentation on the meaning of "topLeft" was unclear.
+
+LIMITATIONS AND SUGGESTIONS
+    We were able to display the provider's EditView with our model. However, we could not make
+any of the edit features work because of the way these were set up. On top of that,
+displayCellContents and clearTextBox are both methods in the controller which specifically refer
+to events that are happening in the view, however, their view interface does not have these methods
+to be called. We therefore have no access to their view from our controller to implement this
+functionality. As far as suggestions go, we would recommend that the provider not send things from
+the view to the controller if it is not necessary (i.e. clearing and setting the text box). We
+would also suggest that the EditView not have any public classes that are not in the interface.

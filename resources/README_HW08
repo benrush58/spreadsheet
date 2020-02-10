@@ -1,0 +1,49 @@
+HW08 README
+
+*Note*: We lost 4 Java style points due to code received from the providers. They parameterized
+their Model and Cell class so that we would not need their CellValue and associated concrete
+classes, but the Handin Server takes points off for this.
+
+Correctly working functionality:
+--------------------------------
+ - Highlighting the selected cell
+    - The providers designed their highlightCell function as a public method in their concrete
+      EditView class, but did not include the method in their View interface. Because of this design
+      decision, we had to cast their View interface to be an EditView (their concrete
+      implementation) in order to call the public methods not in the interface. Also, in the
+      ControllerAdapter, we had to add a selected cell field because they kept track of this in the
+      controller implementation, instead of in the interface. This change worked because it gave
+      us the information needed to modify the cell and we could call the methods needed.
+ - Keep the functionality of our implementation and add the provider implementation separately
+    - We modified the main function to handle running the provided implementation as a separate
+      case than -edit. To do this, we set our controller to take in a ViewAdapter, which wraps the
+      provider's view with our View interface. We then give their EditView our model wrapped in
+       a WorksheetAdapter class so that it can be displayed. This separation allows us to run both
+       the provided and our implementation seamlessly.
+ - Displaying the highlighted cell's contents and clearing the edit bar with the clear button
+    - The providers dealt with this functionality in public methods in their EditView. However,
+    these methods were not contained in the View interface. To fix this issue, we casted their
+    View object to be an EditView in the NewController and called the public methods from EditView.
+    While we understand this is not the best coding practice, we recommend that the provider add
+    the necessary methods to the interface, or avoid having public methods in concrete classes that
+    are not in the interface.
+
+
+ Functionality that we couldn't implement:
+ -----------------------------------------
+ - Changing the contents of a selected cell by pressing the confirm button
+    - Because our View and Controller interfaces were so different, we could not get this function
+    to work. We do know that the setCellValue method is being called from our NewController when
+    the confirm button is pressed (with the help of print statements). However, the view  is not
+    updating to reflect this change.
+
+
+Things we tried:
+----------------
+- We created several different adapters in order to try to get the functionality working correctly.
+Initially, we tried to use our controller implementation in conjunction with our model
+implementation and the provider's EditView wrapped in a ViewAdapter. We ended up making a new
+controller instead called NewController, which takes in the provider's View and Model (the model
+we gave it was our model wrapped in a ModelAdapter). In this NewController, we ended up having to
+add a field to keep track of which cell was highlighted, because that is how the providers
+designed their program to work.
